@@ -10,6 +10,7 @@ with open("college_data.txt", "r", encoding="utf-8") as f:
 # Better chunking
 texts = [chunk.strip() for chunk in content.split("\n\n") if chunk.strip()]
 
+
 embeddings = model.encode(texts)
 
 dimension = embeddings.shape[1]

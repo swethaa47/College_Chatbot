@@ -18,7 +18,7 @@ def ask_chatbot(user_question):
     question_embedding = embed_model.encode([user_question])
 
     # Search in FAISS (top 3 matches)
-    distances, indices = index.search(question_embedding, k=3)
+    distances, indices = index.search(question_embedding, k=15)
 
     # Retrieve relevant context
     context = ""
@@ -27,9 +27,13 @@ def ask_chatbot(user_question):
 
     # Create prompt for Ollama
     prompt = f"""
-Use the following college information to answer the question.
+You are a college information assistant.
 
-College Information:
+Answer ONLY using the information given below.
+If the answer is present, state it clearly and directly.
+Do NOT say that information is missing if it exists.
+
+Information:
 {context}
 
 Question:
@@ -37,6 +41,7 @@ Question:
 
 Answer:
 """
+
 
     # Call Ollama (local model)
     result = subprocess.run(
